@@ -1,0 +1,159 @@
+# As we are customizing TWM NoDefaults are mandatory
+NoDefaults
+ShowIconManager
+SortIconManager
+NoTitleHighlight
+TitleButtonBorderWidth 2
+SqueezeTitle
+IconifyByUnmapping
+IconManagerGeometry	"=164x10-0+35" 1
+
+# Set fonts
+TitleFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+ResizeFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+MenuFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+IconFont "-adobe-helvetica-bold-r-normal--*-90-*-*-*-*-*-*"
+IconManagerFont "-adobe-helvetica-bold-r-normal--*-90-*-*-*"
+
+# Colors defined according to http://www.custompc.plus.com/twm/twmrc.htm
+Color
+{
+    BorderColor			"#A0A0A0"
+    DefaultBackground		"#E6E6E6"
+    DefaultForeground		"#000000"
+
+    TitleBackground		"#443F5F"
+    TitleForeground		"White"
+
+    MenuBackground		"#C0C0C0"
+    MenuForeground		"#414D5B"
+
+    MenuBorderColor		"#000000"
+    MenuShadowColor		"#000000"
+
+    MenuTitleBackground		"#443F5F"
+    MenuTitleForeground		"White"
+
+    IconBackground		"#443F5F"
+    IconForeground		"White"
+    IconBorderColor		"#000000"
+    IconManagerBackground	"#443F5F"
+    IconManagerForeground	"White"
+}
+
+
+# Setting effecting window borders
+BorderWidth		4
+FramePadding		1
+TitleButtonBorderWidth	0
+TitlePadding		2
+ButtonIndent		0
+MenuBorderWidth		1
+
+# Title bar buttons
+IconDirectory		"/home/nacho/.twm"
+LeftTitleButton		"resize.xbm"=f.resize
+RightTitleButton	"minimize.xbm"=f.iconify
+RightTitleButton	"maximize.xbm"=f.fullzoom
+RightTitleButton	"close.xbm"=f.delete
+
+# Some windows don't need a tittle bar
+NoTitle
+{
+	"xclock"
+	"xload"
+	"xsysinfo"
+	"TWM Icon Manager"
+	"oclock"
+}
+
+# Some applications will not be shown in the icon manager 
+IconManagerDontShow
+{
+	"xload"
+	"xclock"
+	"oclock"
+	"xsysinfo"
+	"TWM Icon Manager"
+}
+
+
+
+#
+# Define some useful functions for motion-based actions.
+#
+MoveDelta 3
+Function "move-or-lower" { f.move f.deltastop f.lower }
+Function "move-or-raise" { f.move f.deltastop f.raise }
+Function "move-or-iconify" { f.move f.deltastop f.iconify }
+
+
+# Set some useful bindings.  Sort of uwm-ish, sort of simple-button-ish
+Button1 = : root : f.menu "main"
+Button2 = : root : f.menu "windowops"
+Button3 = : root : f.menu "TwmWindows"
+
+Button1 = m : window|icon : f.function "move-or-lower"
+Button2 = m : window|icon : f.iconify
+Button3 = m : window|icon : f.function "move-or-raise"
+
+Button1 = : title : f.function "move-or-raise"
+Button2 = : title : f.raiselower
+
+Button1 = : icon : f.function "move-or-iconify"
+Button2 = : icon : f.iconify
+
+Button1 = : iconmgr : f.iconify
+Button2 = : iconmgr : f.iconify
+
+
+# And a menus with the usual things
+menu "main"
+{
+		"* UNIX *"		f.title
+		"Xterm"			f.exec "xterm &"
+                "Xload"			f.exec "xload &"
+		"Xclock"		f.exec "xclock -update 1 &"
+		"Emacs"			f.exec "emacs &"
+		"Firefox"		f.exec "firefox &"
+		"Xman"			f.exec "xman &"
+		"Xinfo"			f.exec "tkinfo &"
+		"Python Idle"		f.exec "idle &"
+		"Xsysinfo"		f.exec "xsysinfo &"
+		"Nedit"			f.exec "nedit &"
+		"Xfe"			f.exec "xfe &"
+		"Xpdf"			f.exec "xpdf &"
+		"Pharo Smalltalk"	f.exec "/home/nacho/Pharo/pharo &"
+		"Debugger"		f.exec "ddd &"
+		"Run..."		f.exec "gksu &"
+		""			f.nop
+		"Show Icon Manager"	f.showiconmgr
+		"Hide Icon Manager"	f.hideiconmgr
+		""			f.nop
+		"Exit"			f.menu "Quit-Verify"
+}
+
+menu "Quit-Verify"
+{
+		"Really quit twm?"	f.title
+		"No, restart twm"	f.restart
+		"Yes, really quit"	f.quit
+}
+
+menu "windowops"
+{
+		"Window Ops"		f.title
+		""			f.nop
+		"Iconify"		f.iconify
+		"Resize"		f.resize
+		"Move"			f.move
+		"Raise"			f.raise
+		"Lower"			f.lower
+		""			f.nop
+		"Focus"			f.focus
+		"Unfocus"		f.unfocus
+		""			f.nop
+		"Delete"		f.delete
+		"Destroy"		f.destroy
+}
+
